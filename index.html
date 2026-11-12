@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1E1E1E">
+<title>Cuentos del Tren de la Historia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FDFBF7;--ink:#2D3142;--card:#FFFFFF;--line:#D9D4C7;--accent:#2EC4B6;--accent-2:#F4A261;--shadow:0 6px 16px rgba(45,49,66,.12)}
+body.calm{--bg:#2B2D3A;--ink:#EDE6D6;--card:#383B4D;--line:#4A4E63;--shadow:0 6px 16px rgba(0,0,0,.35)}
+body.dark{--bg:#1E1E1E;--ink:#FFFFFF;--card:#C4C4C4;--line:#4a4a4a}
+
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{font-family:'Nunito',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--ink);letter-spacing:.03em;transition:background .4s,color .4s;-webkit-tap-highlight-color:transparent}
+body.big .text{font-size:27px}
+button,input{font:inherit;color:inherit}
+button{min-height:48px;min-width:48px;border:2px solid var(--line);background:var(--card);border-radius:14px;padding:10px 18px;cursor:pointer;font-weight:800;box-shadow:var(--shadow)}
+button:hover{filter:brightness(1.04)}
+button:active{transform:scale(.97)}
+button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+button[disabled]{opacity:.45;cursor:not-allowed;box-shadow:none}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+button.big{min-height:56px;font-size:20px;width:100%;max-width:320px}
+button.selected{border-color:var(--accent-2);box-shadow:0 0 0 3px rgba(244,162,97,.4)}
+.ghost-btn{box-shadow:none;background:transparent;padding:8px 12px;border-color:transparent}
+
+header{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:12px 16px;position:sticky;top:0;background:var(--bg);z-index:10;padding-top:calc(12px + env(safe-area-inset-top,0px))}
+header h1{font-size:20px;margin:0;font-weight:800;flex:1}
+.stars{font-weight:800}
+.av{font-size:26px}
+main{padding:8px 16px 110px;max-width:760px;margin:0 auto}
+.hint{font-weight:600;padding:0 4px;font-size:15px;opacity:.85}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
+.row.nav{justify-content:space-between}
+.intro{font-size:18px;line-height:1.6}
+.bottom{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:space-around;background:var(--card);border-top:2px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));z-index:15}
+.bottom button{border:0;background:transparent;box-shadow:none;flex-direction:column;display:flex;align-items:center;font-size:22px;min-width:72px}
+.bottom button span{font-size:12px;display:block;font-weight:800}
+.bottom button.on{color:var(--accent)}
+body.dark .bottom{background:#2a2a2a;color:#fff}
+
+.onb{text-align:center;padding-top:20px}
+.onb .logo{font-size:64px}
+.onb input{font-size:20px;padding:12px;border-radius:14px;border:2px solid var(--line);width:100%;max-width:320px;margin:8px 0 16px;background:#fff;color:#2D3142}
+.avs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:8px 0 22px}
+.av-btn{font-size:34px;min-width:68px;min-height:68px}
+
+.cont{background:var(--card);border:2px solid var(--accent);border-radius:18px;padding:14px;margin:10px 0 16px}
+.cont p{margin:0 0 8px;font-weight:600}
+.shelf{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:8px 4px 24px;-webkit-overflow-scrolling:touch;touch-action:pan-x}
+.book{flex:0 0 68vw;max-width:280px;scroll-snap-align:start;background:#C4C4C4;color:#1E1E1E;border:0;border-radius:18px;overflow:hidden;padding:0;box-shadow:none;text-align:left;min-height:0;min-width:0}
+.book .cover{background:#fff;padding:10px;position:relative}
+.book .cover svg{width:100%;height:auto;border-radius:12px;display:block}
+.book .badge{position:absolute;top:16px;right:16px;background:var(--accent-2);color:#fff;border-radius:999px;padding:2px 10px;font-size:13px}
+.book .label{padding:14px 14px 4px;font-weight:800;letter-spacing:.06em;font-size:16px}
+.book small{display:block;padding:0 14px 16px;font-weight:600;font-size:14px;color:#333}
+
+.track{flex:1;min-width:120px;height:10px;background:var(--line);border-radius:99px;position:relative;margin:0 8px}
+.rocket{position:absolute;top:-14px;transition:left .5s ease}
+.rocket svg{width:28px;height:28px;display:block}
+svg{display:block}
+.art svg{width:100%;max-width:340px;height:auto;margin:0 auto;border-radius:18px;box-shadow:var(--shadow)}
+.text{font-size:22px;line-height:1.85;letter-spacing:.04em;text-align:left;margin:18px 0}
+.text .s{transition:opacity .3s,background .3s;border-radius:6px;cursor:pointer}
+.text.ruler .s{opacity:.28}
+.text.ruler .s.on{opacity:1;background:rgba(46,196,182,.22)}
+
+.train-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.wagon{min-height:130px;border:3px dashed var(--line);border-radius:16px;padding:14px 8px 8px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;transition:border-color .2s,background .2s}
+.wagon.over{border-color:var(--accent);background:rgba(46,196,182,.12)}
+.wagon.filled{border-style:solid;border-color:var(--accent)}
+.wagon .num{position:absolute;top:-12px;left:12px;background:var(--accent-2);color:#fff;border-radius:999px;padding:2px 10px;font-weight:800;font-size:14px}
+.wagon .slot{opacity:.6;font-size:14px}
+.tray{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:20px;min-height:120px;padding:14px;background:rgba(127,127,127,.08);border-radius:18px}
+.card{width:150px;background:var(--card);border:2px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:8px;touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab;font-weight:800;font-size:15px;line-height:1.4;text-align:center;transition:transform .2s,box-shadow .2s}
+.card svg{width:100%;height:auto;border-radius:10px;margin-bottom:6px}
+.card p{margin:0}
+.card:hover{transform:translateY(-2px)}
+.card.selected{border-color:var(--accent-2);box-shadow:0 0 0 4px rgba(244,162,97,.4)}
+.card.dragging{opacity:.35}
+.card.placed{border-color:var(--accent);cursor:default}
+.card.bounce{animation:bounce .5s}
+.ghost{position:fixed;pointer-events:none;z-index:50;opacity:.95;transform:rotate(-3deg);box-shadow:0 14px 30px rgba(0,0,0,.25)}
+@keyframes bounce{0%{transform:translateX(0)}30%{transform:translateX(-8px)}60%{transform:translateX(6px)}100%{transform:none}}
+
+.bubble{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;transition:opacity .3s,transform .3s;background:var(--card);border:2px solid var(--accent);padding:12px 16px;border-radius:14px;max-width:90vw;font-weight:600;z-index:20;pointer-events:none;box-shadow:var(--shadow)}
+.bubble.show{opacity:1;transform:translate(-50%,0)}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:30;padding:16px}
+.overlay.open{display:flex}
+.panel{background:var(--bg);color:var(--ink);border-radius:20px;padding:24px;max-width:480px;width:100%;max-height:85vh;overflow:auto;text-align:left;box-shadow:var(--shadow)}
+.panel.center{text-align:center}
+.panel ul{padding-left:20px;line-height:1.6}
+.breathe{width:110px;height:110px;border-radius:50%;background:var(--accent);margin:0 auto 16px;animation:breathe 8s infinite ease-in-out}
+@keyframes breathe{0%,100%{transform:scale(.6)}50%{transform:scale(1.1)}}
+.recap{display:flex;gap:12px;align-items:center;margin-bottom:12px}
+.recap svg{width:90px;flex:0 0 90px;border-radius:10px}
+.celebrate{font-size:64px;text-align:center;animation:flash .45s ease-out}
+@keyframes flash{0%{transform:scale(.4);opacity:0}60%{transform:scale(1.15);opacity:1}100%{transform:scale(1)}}
+ol.summary{line-height:1.8;font-size:18px}
+
+.garage{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:8px 2px 16px;touch-action:pan-x}
+.car{flex:0 0 70%;max-width:260px;scroll-snap-align:start;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:12px;text-align:center}
+.car.off{opacity:.6}
+.carart{min-height:100px;display:flex;align-items:center;justify-content:center;font-size:48px}
+.carart svg{width:100%;border-radius:12px}
+.car p{font-weight:800;margin:8px 0 4px}
+.car small{font-weight:600}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.stat{background:var(--card);border-radius:16px;padding:14px;text-align:center;border:2px solid var(--line)}
+.stat b{font-size:28px;display:block}
+.gate{text-align:center;padding-top:24px}
+.gate button{margin:6px}
+body.dark{--bg:#221c4a;--card:#2f2a5e;--line:#4b4590;background:linear-gradient(170deg,#2a1f5c 0%,#16324f 100%) fixed;min-height:100vh}
+body.dark header{background:transparent}
+.hero{background:linear-gradient(135deg,#FF8FAB,#FFD166);color:#2D3142;border-radius:24px;padding:18px;margin:8px 0 14px;box-shadow:var(--shadow)}
+.hero p{font-size:24px;font-weight:800;margin:0 0 10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:#fff;color:#2D3142;border:0;border-radius:999px;min-height:44px;padding:8px 14px;box-shadow:none}
+.chip.on{background:#2D3142;color:#fff}
+.sec{font-size:21px;margin:24px 4px 0;color:#fff}
+.bk{position:relative;flex:0 0 62vw;max-width:250px;scroll-snap-align:start;background:var(--c);color:#2D3142;border:0;border-radius:22px;padding:12px;box-shadow:0 10px 0 rgba(0,0,0,.25);text-align:left;min-height:0;min-width:0;transition:transform .2s}
+.bk:hover{transform:translateY(-4px) rotate(-1deg)}
+.bk-e{position:absolute;top:-16px;left:-8px;font-size:40px;transform:rotate(-8deg)}
+.bk .cover{position:relative;background:#fff;border-radius:16px;padding:6px}
+.bk .cover svg{width:100%;height:auto;border-radius:12px}
+.bk .label{font-weight:800;font-size:17px;margin:10px 4px 2px;letter-spacing:.02em}
+.bk small{display:block;margin:0 4px;font-weight:700;opacity:.8}
+.shelf{padding:22px 4px 26px}
+.cont button.primary{width:100%;font-size:18px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="modal" class="overlay" role="dialog" aria-modal="true"></div>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const wrap = inner => `<svg viewBox="0 0 120 90" role="img" aria-hidden="true"><rect width="120" height="90" fill="#EAF6F4"/><rect y="70" width="120" height="20" fill="#BFE3C0"/>${inner}</svg>`;
+const ROCKET = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c3 3 4 7 3 12h-6c-1-5 0-9 3-12z" fill="#F4A261"/><circle cx="12" cy="9" r="2" fill="#2EC4B6"/><path d="M9 14l-3 4 3-1 1 2 2-4zM15 14l3 4-3-1-1 2-2-4z" fill="#2EC4B6"/></svg>`;
+const AV = ['🦊','🐻','🐼','🦁','🐸','🐯'];
+
+const STORIES = [
+  { id:'cerditos', title:'Los tres cerditos', level:'Nivel 1 · 6–7 años',
+    art:[
+      '<circle cx="30" cy="48" r="11" fill="#F4A6A6"/><circle cx="60" cy="44" r="11" fill="#F4A6A6"/><circle cx="90" cy="48" r="11" fill="#F4A6A6"/>',
+      '<polygon points="30,70 50,40 70,70" fill="#E8C96A"/><path d="M78 30q12-6 24 4" stroke="#7A8B99" stroke-width="3" fill="none"/>',
+      '<rect x="30" y="40" width="50" height="30" fill="#B07A4F"/><polygon points="25,40 55,14 85,40" fill="#8A5A3B"/>',
+      '<rect x="30" y="40" width="50" height="30" fill="#C8553D"/><polygon points="25,40 55,14 85,40" fill="#7A3E2E"/><path d="M30 52h50M30 60h50" stroke="#E0A18F" stroke-width="2"/>'
+    ],
+    scenes:[
+      {t:'Había una vez tres cerditos que querían tener cada uno su propia casa.', a:0},
+      {t:'El primero hizo su casa de paja. Fue muy rápido.', a:1},
+      {t:'El segundo la hizo de madera. El tercero la hizo de ladrillo, con paciencia.', a:2},
+      {t:'Llegó el lobo. La casa de ladrillo resistió.', a:3}
+    ],
+    cards:[
+      {t:'Los tres cerditos construyen sus casas', h:'Pista: mira el principio. ¿Qué hicieron los cerditos primero?', a:0},
+      {t:'El lobo derriba la casa de paja', h:'Pista: piensa en la casa que se construyó más deprisa.', a:1},
+      {t:'La casa de ladrillo resiste', h:'Pista: fíjate en el final de la historia.', a:3}
+    ]},
+  { id:'caperucita', title:'Caperucita Roja', level:'Nivel 2 · 8–9 años',
+    art:[
+      '<path d="M48 40h24l4 34H44z" fill="#E9655B"/><circle cx="60" cy="32" r="9" fill="#F2C49B"/><rect x="74" y="58" width="12" height="9" fill="#C9A66B"/>',
+      '<polygon points="14,72 24,28 34,72" fill="#4E7D5B"/><polygon points="84,72 96,22 108,72" fill="#4E7D5B"/><ellipse cx="60" cy="60" rx="14" ry="8" fill="#7A8B99"/><circle cx="72" cy="55" r="5" fill="#7A8B99"/>',
+      '<rect x="35" y="40" width="50" height="30" fill="#D9B38C"/><polygon points="30,40 60,14 90,40" fill="#8A5A3B"/><rect x="52" y="52" width="12" height="18" fill="#5C4033"/>',
+      '<circle cx="60" cy="30" r="9" fill="#F2C49B"/><rect x="50" y="40" width="20" height="30" fill="#4E6E8E"/><line x1="86" y1="28" x2="86" y2="74" stroke="#5C4033" stroke-width="3"/>'
+    ],
+    scenes:[
+      {t:'Caperucita lleva una cesta con comida a la abuela.', a:0},
+      {t:'En el bosque se encuentra con el lobo, que tiene un plan.', a:1},
+      {t:'El lobo llega antes a la casa de la abuela.', a:2},
+      {t:'Un cazador valiente llega y todas están a salvo.', a:3}
+    ],
+    cards:[
+      {t:'Caperucita lleva comida a la abuela', h:'Pista: ¿quién necesitaba la cesta al principio?', a:0},
+      {t:'Se encuentra con el lobo en el bosque', h:'Pista: ¿dónde se cruzó con el lobo?', a:1},
+      {t:'El lobo llega primero a la casa', h:'Pista: ¿qué pasó antes de que llegara el cazador?', a:2},
+      {t:'El cazador ayuda a todas', h:'Pista: piensa en quién llegó al final para salvarlas.', a:3}
+    ]},
+  { id:'flautista', title:'El flautista de Hamelín', level:'Nivel 3 · 9–10 años',
+    art:[
+      '<rect x="20" y="45" width="80" height="30" fill="#D9B38C"/><circle cx="30" cy="75" r="4" fill="#9A9A9A"/><circle cx="50" cy="78" r="4" fill="#9A9A9A"/><circle cx="75" cy="76" r="4" fill="#9A9A9A"/>',
+      '<circle cx="60" cy="30" r="9" fill="#F2C49B"/><rect x="50" y="40" width="20" height="28" fill="#D1462F"/><line x1="66" y1="48" x2="80" y2="42" stroke="#5C4033" stroke-width="3"/>',
+      '<circle cx="60" cy="30" r="9" fill="#F2C49B"/><rect x="50" y="40" width="20" height="28" fill="#D1462F"/><circle cx="25" cy="75" r="4" fill="#9A9A9A"/><circle cx="40" cy="78" r="4" fill="#9A9A9A"/><path d="M0 85Q60 80 120 88" stroke="#4E88B8" fill="none" stroke-width="4"/>',
+      '<circle cx="60" cy="45" r="18" fill="#E8C96A" stroke="#B08B2E" stroke-width="3"/><line x1="40" y1="20" x2="80" y2="70" stroke="#D1462F" stroke-width="5"/>',
+      '<circle cx="40" cy="45" r="7" fill="#F2C49B"/><circle cx="60" cy="45" r="7" fill="#F2C49B"/><circle cx="80" cy="45" r="7" fill="#F2C49B"/><path d="M10 80L110 80" stroke="#4E88B8" stroke-width="4"/>'
+    ],
+    scenes:[
+      {t:'En el pueblo de Hamelín había demasiadas ratas.', a:0},
+      {t:'Llegó un flautista que prometió librarlos de ellas.', a:1},
+      {t:'Tocó su flauta y las ratas lo siguieron hasta el río.', a:2},
+      {t:'Cuando las ratas desaparecieron, el pueblo no cumplió su promesa.', a:3},
+      {t:'El flautista volvió, y los niños lo siguieron hasta la montaña.', a:4}
+    ],
+    cards:[
+      {t:'Hamelín tiene muchas ratas', h:'Pista: ¿cuál era el problema del pueblo al principio?', a:0},
+      {t:'Llega un flautista con una promesa', h:'Pista: ¿quién apareció para ayudar?', a:1},
+      {t:'Las ratas siguen la música', h:'Pista: ¿qué hizo el flautista con su flauta?', a:2},
+      {t:'El pueblo no cumple lo prometido', h:'Pista: piensa en lo que pasó cuando las ratas ya se habían ido.', a:3},
+      {t:'Los niños siguen al flautista', h:'Pista: ¿quién se fue con el flautista al final?', a:4}
+    ]},
+  { id:'ricitos', title:'Ricitos de Oro', level:'Nivel 1 · 6–7 años',
+    art:[
+      '<rect x="25" y="40" width="70" height="30" fill="#C98B5B"/><polygon points="20,40 60,12 100,40" fill="#8A5A3B"/><rect x="52" y="52" width="16" height="18" fill="#5C4033"/>',
+      '<rect x="20" y="58" width="80" height="10" fill="#8A5A3B"/><ellipse cx="35" cy="56" rx="8" ry="4" fill="#F4A261"/><ellipse cx="60" cy="56" rx="8" ry="4" fill="#F4A261"/><ellipse cx="85" cy="56" rx="8" ry="4" fill="#F4A261"/>',
+      '<rect x="20" y="58" width="80" height="14" fill="#8FB8DE"/><circle cx="45" cy="50" r="9" fill="#F2C49B"/><path d="M60 50h45" stroke="#E9655B" stroke-width="6"/>'
+    ],
+    scenes:[
+      {t:'En el bosque vivían tres osos. Un día prepararon sopa y salieron de paseo.', a:0},
+      {t:'Una niña entró en la casa y probó la sopa de cada plato.', a:1},
+      {t:'Se quedó dormida en la cama del osito, la más cómoda.', a:2}
+    ],
+    cards:[
+      {t:'Los osos preparan la sopa y salen', h:'Pista: ¿qué hicieron los osos antes de salir?', a:0},
+      {t:'La niña prueba las sopas', h:'Pista: ¿qué probó la niña en cada plato?', a:1},
+      {t:'La niña duerme en la cama del osito', h:'Pista: ¿de quién era la cama que eligió?', a:2}
+    ]},
+  { id:'patito', title:'El patito feo', level:'Nivel 1 · 6–7 años',
+    art:[
+      '<ellipse cx="60" cy="60" rx="30" ry="12" fill="#C9A66B"/><ellipse cx="60" cy="52" rx="10" ry="13" fill="#F2F2E8"/>',
+      '<circle cx="60" cy="50" r="12" fill="#8A7A5C"/><circle cx="64" cy="46" r="2" fill="#2D3142"/>',
+      '<path d="M30 62q30-40 60 0z" fill="#FFFFFF" stroke="#7A8B99" stroke-width="2"/><circle cx="82" cy="40" r="6" fill="#FFFFFF" stroke="#7A8B99" stroke-width="2"/>'
+    ],
+    scenes:[
+      {t:'Una mamá pata encontró un huevo grande entre sus huevos.', a:0},
+      {t:'Cuando nació, era muy distinto a sus hermanos, y todos se reían de él.', a:1},
+      {t:'Creció y se convirtió en un hermoso cisne.', a:2}
+    ],
+    cards:[
+      {t:'Nace el patito diferente', h:'Pista: ¿en qué era distinto el patito?', a:0},
+      {t:'Los demás se burlan de él', h:'Pista: ¿cómo lo trataban sus hermanos?', a:1},
+      {t:'Se convierte en un cisne', h:'Pista: ¿en qué se transformó al final?', a:2}
+    ]},
+  { id:'pulgarcito', title:'Pulgarcito', level:'Nivel 2 · 8–9 años',
+    art:[
+      '<circle cx="60" cy="40" r="6" fill="#F2C49B"/><rect x="54" y="46" width="12" height="20" fill="#7FB069"/><circle cx="35" cy="72" r="4" fill="#9A9A9A"/><circle cx="85" cy="72" r="4" fill="#9A9A9A"/>',
+      '<polygon points="14,72 24,28 34,72" fill="#4E7D5B"/><polygon points="84,72 96,22 108,72" fill="#4E7D5B"/><circle cx="50" cy="75" r="2" fill="#F4E1B5"/><circle cx="60" cy="72" r="2" fill="#F4E1B5"/>',
+      '<rect x="35" y="40" width="50" height="30" fill="#7A6A8A"/><polygon points="30,40 60,14 90,40" fill="#4B3D5E"/><circle cx="60" cy="55" r="5" fill="#C8E6A0"/>'
+    ],
+    scenes:[
+      {t:'Pulgarcito era tan pequeño que parecía un dedo.', a:0},
+      {t:'Dejó piedras blancas para encontrar el camino de vuelta a casa.', a:1},
+      {t:'Llegó a la casa de un ogro, pero supo engañarlo y escapar.', a:2}
+    ],
+    cards:[
+      {t:'Pulgarcito es muy pequeño', h:'Pista: ¿cómo empieza la historia?', a:0},
+      {t:'Deja piedras para volver a casa', h:'Pista: ¿qué dejó en el camino?', a:1},
+      {t:'Escapa de la casa del ogro', h:'Pista: ¿qué pasó al llegar a la casa?', a:2}
+    ]},
+  { id:'hansel', title:'Hansel y Gretel', level:'Nivel 2 · 8–9 años',
+    art:[
+      '<rect x="30" y="40" width="60" height="30" fill="#F4A6A6"/><polygon points="25,40 60,14 95,40" fill="#E8C96A"/><circle cx="48" cy="60" r="4" fill="#FFFFFF"/>',
+      '<circle cx="50" cy="40" r="6" fill="#F2C49B"/><circle cx="70" cy="40" r="6" fill="#F2C49B"/><rect x="46" y="46" width="8" height="20" fill="#4E88B8"/><rect x="66" y="46" width="8" height="20" fill="#4E88B8"/>',
+      '<rect x="35" y="50" width="50" height="25" fill="#7A6A8A"/><path d="M48 50q12-30 24 0z" fill="#2D3142"/><circle cx="60" cy="40" r="3" fill="#E9655B"/>'
+    ],
+    scenes:[
+      {t:'Hansel y Gretel se perdieron en el bosque y encontraron una casa de dulces.', a:0},
+      {t:'Una bruja los invitó a entrar, pero no era de fiar.', a:1},
+      {t:'Los niños ingeniaron un plan y volvieron a casa con su padre.', a:2}
+    ],
+    cards:[
+      {t:'Se pierden en el bosque', h:'Pista: ¿qué encontraron los niños en el bosque?', a:0},
+      {t:'Llegan a casa de la bruja', h:'Pista: ¿quién los invitó a entrar?', a:1},
+      {t:'Vuelven a casa con su padre', h:'Pista: ¿cómo lograron escapar?', a:2}
+    ]},
+  { id:'pinocho', title:'Pinocho', level:'Nivel 3 · 9–10 años',
+    art:[
+      '<rect x="30" y="58" width="60" height="8" fill="#B07A4F"/><circle cx="60" cy="38" r="9" fill="#F2C49B"/>',
+      '<circle cx="50" cy="40" r="8" fill="#D9B38C"/><path d="M42 40L20 34" stroke="#B07A4F" stroke-width="4"/>',
+      '<circle cx="60" cy="32" r="9" fill="#F2C49B"/><rect x="50" y="42" width="20" height="26" fill="#4E88B8"/>'
+    ],
+    scenes:[
+      {t:'Geppetto talló un muñeco de madera y lo llamó Pinocho.', a:0},
+      {t:'Cada mentira hacía que la nariz de Pinocho creciera.', a:1},
+      {t:'Al decir la verdad, Pinocho se convirtió en un niño de verdad.', a:2}
+    ],
+    cards:[
+      {t:'Geppetto talla a Pinocho', h:'Pista: ¿qué hizo Geppetto al principio?', a:0},
+      {t:'La nariz crece con las mentiras', h:'Pista: ¿qué pasaba cuando Pinocho mentía?', a:1},
+      {t:'Pinocho se vuelve un niño de verdad', h:'Pista: ¿qué ocurrió al decir la verdad?', a:2}
+    ]},
+  { id:'bremen', title:'Los músicos de Bremen', level:'Nivel 3 · 9–10 años',
+    art:[
+      '<rect x="20" y="50" width="20" height="20" fill="#B07A4F"/><circle cx="50" cy="55" r="9" fill="#9A9A9A"/><circle cx="80" cy="55" r="8" fill="#E8C96A"/>',
+      '<path d="M0 75Q60 60 120 75" stroke="#7A8B99" stroke-width="6" fill="none"/><circle cx="60" cy="50" r="8" fill="#D1462F"/>',
+      '<rect x="30" y="45" width="60" height="25" fill="#4B3D5E"/><circle cx="60" cy="40" r="7" fill="#F2C49B"/>'
+    ],
+    scenes:[
+      {t:'Un burro, un perro, un gato y un gallo decidieron ir a Bremen a tocar música.', a:0},
+      {t:'Por el camino se hicieron amigos y siguieron juntos.', a:1},
+      {t:'Al llegar a una casa de ladrones, los asustaron cantando todos a la vez.', a:2}
+    ],
+    cards:[
+      {t:'Los animales deciden ir a Bremen', h:'Pista: ¿cuál era su plan?', a:0},
+      {t:'Se hacen amigos en el camino', h:'Pista: ¿qué hicieron por el camino?', a:1},
+      {t:'Asustan a los ladrones', h:'Pista: ¿cómo asustaron a los ladrones?', a:2}
+    ]}
+];
+const META = {
+  cerditos:{n:1, c:'#FFB5A7', e:'🐷'}, ricitos:{n:1, c:'#FFD166', e:'🐻'}, patito:{n:1, c:'#A8E6CF', e:'🦆'},
+  caperucita:{n:2, c:'#FF8FAB', e:'🧺'}, pulgarcito:{n:2, c:'#BDE0FE', e:'👣'}, hansel:{n:2, c:'#CDB4DB', e:'🍬'},
+  flautista:{n:3, c:'#9EC5FE', e:'🎶'}, pinocho:{n:3, c:'#FFC6A5', e:'🪵'}, bremen:{n:3, c:'#B9FBC0', e:'🐴'}
+};
+STORIES.forEach(s => Object.assign(s, META[s.id], {imgs: s.art.map(wrap)}));
+
+const KEY = 'cuentos-tren-v2';
+const EMPTY = () => ({name:'', avatar:'', done:{}, last:null, set:{voz:true, grande:false},
+                      stats:{sec:0, sessions:0, placed:0, first:0, attempts:0, consulted:0}});
+let P;
+try { P = JSON.parse(localStorage.getItem(KEY)) || EMPTY(); } catch(e){ P = EMPTY(); }
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(P)); } catch(e){} }
+const totalStars = () => Object.values(P.done).reduce((a, d) => a + d.stars, 0);
+
+let S = {view: P.name ? 'home' : 'onboard', story:null, scene:0, focus:0, ruler:false, calm:false, lvl:0,
+         placed:[], order:[], selected:null, fails:0, rapid:0, last:0, wrong:new Set(), consulted:0,
+         bounce:null, t0:0, pickAv:'', pickName:'', adult:false, lastStars:0};
+
+function tick(){ if (S.t0){ P.stats.sec += Math.round((Date.now() - S.t0) / 1000); S.t0 = 0; save(); } }
+function go(view, extra){
+  tick();
+  Object.assign(S, extra || {}, {view});
+  if (view === 'reading' || view === 'train') S.t0 = Date.now();
+  render();
+  window.scrollTo({top:0});
+}
+function startStory(s){
+  P.stats.sessions++; P.last = s.id; save();
+  Object.assign(S, {story:s, scene:0, focus:0, placed:new Array(s.cards.length).fill(null),
+                    selected:null, fails:0, rapid:0, last:0, wrong:new Set(), consulted:0});
+  go('reading');
+}
+function startTrain(){
+  const ids = S.story.cards.map((_, i) => i);
+  for (let i = ids.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [ids[i], ids[j]] = [ids[j], ids[i]]; }
+  S.order = ids;
+  go('train');
+}
+
+function render(){
+  document.body.classList.toggle('dark', S.view === 'home');
+  document.body.classList.toggle('calm', S.calm && S.view === 'reading');
+  document.body.classList.toggle('big', !!P.set.grande);
+  const V = {onboard:vOnb, home:vHome, reading:vRead, train:vTrain, end:vEnd, tren:vTren, familia:vFam};
+  $('#app').innerHTML = V[S.view]() + '<div id="bubble" class="bubble" role="status" aria-live="polite"></div>';
+  S.bounce = null;
+  if (S.view === 'train') bindTrain();
+}
+
+function header(left){
+  return `<header>${left}<span class="stars" aria-label="Estrellas">⭐ ${totalStars()}</span>
+    <span class="av" aria-label="Tu compañero">${esc(P.avatar || '🦊')}</span>
+    <button class="ghost-btn" data-act="about" aria-label="Sobre este enfoque (TDAH)">ℹ️ Enfoque TDAH</button></header>`;
+}
+function nav(){
+  const items = [['home','🏠','Inicio'], ['tren','🚂','Mi tren'], ['familia','👨‍👩‍👧','Familia']];
+  return `<nav class="bottom" aria-label="Navegación principal">${items.map(([k,i,l]) =>
+    `<button class="${S.view === k ? 'on' : ''}" data-act="go" data-to="${k}" aria-current="${S.view === k}">${i}<span>${l}</span></button>`).join('')}</nav>`;
+}
+
+function vOnb(){
+  return `<main class="onb">
+    <div class="logo" aria-hidden="true">🚂</div>
+    <h1>¡Hola! Vamos a leer cuentos</h1>
+    <p>¿Cómo te llamas?</p>
+    <input id="nm" maxlength="14" placeholder="Tu nombre" aria-label="Tu nombre" value="${esc(S.pickName)}">
+    <p>Elige tu compañero de viaje:</p>
+    <div class="avs">${AV.map(a => `<button class="av-btn ${S.pickAv === a ? 'selected' : ''}" data-act="pick" data-av="${a}" aria-label="Compañero ${a}">${a}</button>`).join('')}</div>
+    <button class="primary big" data-act="start">¡Empezar!</button>
+  </main>`;
+}
+
+function vHome(){
+  const last = P.last ? STORIES.find(s => s.id === P.last) : null;
+  const lvls = [[0,'Todos','🌈'], [1,'Nivel 1 · 6–7','🌱'], [2,'Nivel 2 · 8–9','🚀'], [3,'Nivel 3 · 9–10','🏆']];
+  const names = ['', 'Nivel 1 · 6–7 años', 'Nivel 2 · 8–9 años', 'Nivel 3 · 9–10 años'];
+  const shelf = list => `<div class="shelf">${list.map(s => {
+    const i = STORIES.indexOf(s), d = P.done[s.id];
+    return `<button class="bk" style="--c:${s.c}" data-act="open" data-book="${i}" aria-label="${esc(s.title)}">
+      <span class="bk-e" aria-hidden="true">${s.e}</span>
+      <div class="cover">${s.imgs[0]}${d ? `<span class="badge">${'⭐'.repeat(d.stars)}</span>` : ''}</div>
+      <div class="label">${esc(s.title)}</div><small>${s.level}</small></button>`;
+  }).join('')}</div>`;
+  const groups = S.lvl ? [S.lvl] : [1, 2, 3];
+  return `${header(`<h1>Hola, ${esc(P.name)} 👋</h1>`)}
+  <main>
+    <div class="hero">
+      <p>¡Elige tu aventura!</p>
+      <div class="chips" role="group" aria-label="Elegir nivel">${lvls.map(([v, l, e]) =>
+        `<button class="chip ${S.lvl === v ? 'on' : ''}" data-act="lvl" data-v="${v}" aria-pressed="${S.lvl === v}">${e} ${l}</button>`).join('')}</div>
+    </div>
+    ${last ? `<section class="cont"><p>📖 Seguir leyendo</p>
+      <button class="primary" data-act="open" data-book="${STORIES.indexOf(last)}">${esc(last.title)} →</button></section>` : ''}
+    <p class="hint">Desliza hacia la izquierda para ver más libros →</p>
+    ${groups.map(n => `<h2 class="sec">${names[n]}</h2>${shelf(STORIES.filter(s => s.n === n))}`).join('')}
+  </main>${nav()}`;
+}
+function vHomeOld(){
+  const last = P.last ? STORIES.find(s => s.id === P.last) : null;
+  return `${header(`<h1>Hola, ${esc(P.name)}</h1>`)}
+  <main>
+    ${last ? `<section class="cont"><p>Seguir leyendo</p>
+      <button class="primary" data-act="open" data-book="${STORIES.indexOf(last)}">📖 ${esc(last.title)}</button></section>` : ''}
+    <p class="hint">Desliza hacia la izquierda para ver más libros →</p>
+    <div class="shelf" aria-label="Biblioteca">${STORIES.map((s, i) => {
+      const d = P.done[s.id];
+      return `<button class="book" data-act="open" data-book="${i}" aria-label="${esc(s.title)}">
+        <div class="cover">${s.imgs[0]}${d ? `<span class="badge">${'⭐'.repeat(d.stars)}</span>` : ''}</div>
+        <div class="label">${s.title.toUpperCase()}</div>
+        <small>${s.level}</small></button>`;
+    }).join('')}</div>
+  </main>${nav()}`;
+}
+
+function vRead(){
+  const s = S.story, sc = s.scenes[S.scene], n = s.scenes.length, last = S.scene === n - 1;
+  const sentences = sc.t.split(/(?<=[.!?])\s+/).map((x, i) =>
+    `<span class="s ${S.focus === i ? 'on' : ''}" data-s="${i}">${x} </span>`).join('');
+  return `${header(`
+    <button class="ghost-btn" data-act="go" data-to="home">← Libros</button>
+    <div class="track" aria-label="Progreso de lectura"><span class="rocket" style="left:calc(${((S.scene + 1) / n * 100).toFixed(0)}% - 14px)">${ROCKET}</span></div>
+    <button class="ghost-btn" data-act="calm">${S.calm ? '☀️ Claro' : '🌙 Calma'}</button>`)}
+  <main>
+    <div class="art">${s.imgs[sc.a]}</div>
+    <p class="text ${S.ruler ? 'ruler' : ''}">${sentences}</p>
+    <div class="row">
+      <button data-act="speak">🔊 Escuchar escena</button>
+      <button data-act="ruler" class="${S.ruler ? 'selected' : ''}" aria-pressed="${S.ruler}">📏 Regla de lectura</button>
+    </div>
+    <div class="row nav">
+      <button data-act="prev" ${S.scene === 0 ? 'disabled' : ''}>← Atrás</button>
+      <button class="primary" data-act="next">${last ? '¡Construir el tren!' : 'Siguiente →'}</button>
+    </div>
+  </main>`;
+}
+
+function card(id, placed){
+  const c = S.story.cards[id];
+  return `<div class="card ${S.selected === id ? 'selected' : ''} ${placed ? 'placed' : ''} ${S.bounce === id ? 'bounce' : ''}"
+    data-c="${id}" role="button" tabindex="0" aria-label="${esc(c.t)}">${S.story.imgs[c.a]}<p>${esc(c.t)}</p></div>`;
+}
+function vTrain(){
+  const s = S.story;
+  const tray = S.order.filter(id => !S.placed.includes(id));
+  const wagons = s.cards.map((_, i) => {
+    const filled = S.placed[i] !== null;
+    return `<div class="wagon ${filled ? 'filled' : ''}" data-w="${i}">
+      <span class="num">${i + 1}</span>
+      ${filled ? card(S.placed[i], true) : `<span class="slot">Vagón ${i + 1}</span>`}</div>`;
+  }).join('');
+  return `${header(`<button class="ghost-btn" data-act="go" data-to="home">← Libros</button><h1>Tren de la historia</h1>`)}
+  <main>
+    <p class="intro">Coloca cada tarjeta en su vagón, en el orden de la historia. Puedes arrastrarla, o tocarla y luego tocar el vagón. ¡No hay prisa!</p>
+    <div class="train-grid">${wagons}</div>
+    <div class="tray" aria-label="Tarjetas para ordenar">${tray.map(id => card(id, false)).join('')}</div>
+    <div class="row"><button data-act="consult">📖 Volver a mirar el cuento</button></div>
+  </main>
+  <div id="pause" class="overlay">
+    <div class="panel center">
+      <div class="breathe"></div>
+      <p><strong>¡Vas muy rápido!</strong> Respira hondo conmigo: dentro… y fuera.</p>
+      <p>Mira bien las pistas del cuento antes de soltar cada tarjeta.</p>
+      <button class="primary" data-act="close">Entendido</button>
+    </div>
+  </div>`;
+}
+
+function vEnd(){
+  const s = S.story, st = S.lastStars;
+  const stars = '⭐'.repeat(st) + '☆'.repeat(3 - st);
+  const strategy = S.consulted > 0
+    ? '¡Usaste «Volver a mirar el cuento» para repasar. Muy buena estrategia!'
+    : 'Recuerda que puedes usar «Volver a mirar el cuento» cuando lo necesites.';
+  return `${header('<h1>¡Tren completo!</h1>')}
+  <main>
+    <div class="celebrate" aria-hidden="true">✨🚂✨</div>
+    <p style="text-align:center;font-size:28px;margin:4px 0">${stars}</p>
+    <p style="text-align:center;font-weight:800">¡Has construido el vagón de «${esc(s.title)}»!</p>
+    <div class="panel" style="max-width:none;margin:16px 0">
+      <h2 style="font-size:18px;margin-top:0">La historia reconstruida</h2>
+      <ol class="summary">${s.cards.map(c => `<li>${esc(c.t)}</li>`).join('')}</ol>
+      <p><strong>Esfuerzo:</strong> ${st === 3 ? 'lo has logrado a la primera. ¡Enorme concentración!' : st === 2 ? 'has ido encajando cada parte con paciencia.' : 'no te rendiste y terminaste el tren. ¡Eso cuenta mucho!'}</p>
+      <p><strong>Estrategias:</strong> ${strategy}</p>
+    </div>
+    <div class="row">
+      <button class="primary" data-act="go" data-to="home">📚 Volver a la biblioteca</button>
+      <button data-act="go" data-to="tren">🚂 Ver mi tren</button>
+    </div>
+  </main>`;
+}
+
+function vTren(){
+  return `${header('<h1>Mi tren</h1>')}
+  <main>
+    <p class="intro">Cada cuento terminado construye un vagón nuevo. Desliza para verlos.</p>
+    <div class="garage" aria-label="Vagones">${STORIES.map(s => {
+      const d = P.done[s.id];
+      return `<div class="car ${d ? 'on' : 'off'}">
+        <div class="carart">${d ? s.imgs[0] : '🔒'}</div>
+        <p>${d ? esc(s.title) : 'Vagón bloqueado'}</p>
+        <small>${d ? '⭐'.repeat(d.stars) : 'Termina el cuento para desbloquearlo'}</small></div>`;
+    }).join('')}</div>
+    <p style="font-weight:800">Total de estrellas: ⭐ ${totalStars()}</p>
+  </main>${nav()}`;
+}
+
+function vFam(){
+  if (!S.adult){
+    return `${header('<h1>Zona familiar</h1>')}
+    <main class="gate">
+      <p>Esta zona es para personas adultas. ¿Cuánto es 7 + 5?</p>
+      <div>${[10, 12, 14].map(v => `<button data-act="gate" data-v="${v}">${v}</button>`).join('')}</div>
+    </main>${nav()}`;
+  }
+  const pct = P.stats.placed ? Math.round(P.stats.first / P.stats.placed * 100) : 0;
+  const min = Math.round(P.stats.sec / 60);
+  return `${header('<h1>Zona familiar</h1>')}
+  <main>
+    <div class="stat-grid">
+      <div class="stat"><b>${min}</b>minutos leídos</div>
+      <div class="stat"><b>${P.stats.sessions}</b>sesiones</div>
+      <div class="stat"><b>${pct}%</b>aciertos al primer intento</div>
+      <div class="stat"><b>${P.stats.consulted}</b>veces que miró el cuento</div>
+    </div>
+    <p><strong>Cuentos:</strong></p>
+    <ul>${STORIES.map(s => `<li>${esc(s.title)}: ${P.done[s.id] ? '⭐'.repeat(P.done[s.id].stars) + ' completado' : 'pendiente'}</li>`).join('')}</ul>
+    <p><strong>Ajustes:</strong></p>
+    <div class="row">
+      <button data-act="toggle" data-k="voz" aria-pressed="${P.set.voz}">🔊 Voz: ${P.set.voz ? 'sí' : 'no'}</button>
+      <button data-act="toggle" data-k="grande" aria-pressed="${P.set.grande}">🔠 Letra grande: ${P.set.grande ? 'sí' : 'no'}</button>
+    </div>
+    <div class="row">
+      <button data-act="leave-family">Salir de la zona familiar</button>
+      <button data-act="reset">Borrar progreso</button>
+    </div>
+  </main>${nav()}`;
+}
+
+function bindTrain(){
+  document.querySelectorAll('.tray .card').forEach(el => {
+    let d = null;
+    el.addEventListener('pointerdown', e => {
+      d = {id:+el.dataset.c, x:e.clientX, y:e.clientY, ghost:null};
+      el.setPointerCapture(e.pointerId);
+    });
+    el.addEventListener('pointermove', e => {
+      if (!d) return;
+      if (!d.ghost){
+        if (Math.hypot(e.clientX - d.x, e.clientY - d.y) < 8) return;
+        d.ghost = el.cloneNode(true);
+        d.ghost.classList.add('ghost');
+        d.ghost.style.width = el.offsetWidth + 'px';
+        document.body.appendChild(d.ghost);
+        el.classList.add('dragging');
+      }
+      d.ghost.style.left = (e.clientX - el.offsetWidth / 2) + 'px';
+      d.ghost.style.top = (e.clientY - 30) + 'px';
+      markOver(e.clientX, e.clientY);
+    });
+    const finish = e => {
+      if (!d) return;
+      const dd = d; d = null;
+      el.classList.remove('dragging');
+      if (dd.ghost){
+        dd.ghost.remove();
+        markOver(-1, -1);
+        const w = document.elementFromPoint(e.clientX, e.clientY)?.closest('.wagon');
+        if (w) attempt(dd.id, +w.dataset.w);
+      } else {
+        S.selected = S.selected === dd.id ? null : dd.id;
+        render();
+      }
+    };
+    el.addEventListener('pointerup', finish);
+    el.addEventListener('pointercancel', () => {
+      d = null; el.classList.remove('dragging');
+      document.querySelectorAll('.ghost').forEach(g => g.remove());
+      markOver(-1, -1);
+    });
+    el.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        const id = +el.dataset.c;
+        S.selected = S.selected === id ? null : id;
+        render();
+      }
+    });
+  });
+}
+function markOver(x, y){
+  document.querySelectorAll('.wagon.over').forEach(w => w.classList.remove('over'));
+  if (x < 0) return;
+  const w = document.elementFromPoint(x, y)?.closest('.wagon');
+  if (w && !w.classList.contains('filled')) w.classList.add('over');
+}
+
+function attempt(id, w){
+  if (S.placed[w] !== null) return;
+  const now = Date.now();
+  const quick = S.last && (now - S.last) < 3000;
+  S.last = now;
+  P.stats.attempts++;
+
+  if (id === w){
+    if (!S.wrong.has(id)) P.stats.first++;
+    P.stats.placed++;
+    S.placed[w] = id; S.selected = null; S.rapid = 0;
+    save();
+    if (S.placed.every(x => x !== null)){
+      finishStory();
+      render();
+      say('¡El tren está completo!');
+      setTimeout(() => go('end'), 900);
+    } else {
+      render();
+      say('¡Muy bien! Esa parada ya está en su sitio.');
+    }
+    return;
+  }
+
+  S.wrong.add(id); S.fails++; S.selected = null;
+  S.rapid = quick ? S.rapid + 1 : 0;
+  S.bounce = id;
+  save();
+  render();
+  say(S.story.cards[id].h);
+  if (S.rapid >= 2){
+    S.rapid = 0;
+    const p = $('#pause');
+    if (p) p.classList.add('open');
+  }
+}
+function finishStory(){
+  const stars = S.fails === 0 ? 3 : S.fails <= 2 ? 2 : 1;
+  S.lastStars = stars;
+  const prev = P.done[S.story.id];
+  P.done[S.story.id] = {stars: Math.max(stars, prev ? prev.stars : 0)};
+  P.last = S.story.id;
+  save();
+}
+
+function say(msg){
+  const b = $('#bubble'); if (!b) return;
+  b.textContent = msg; b.classList.add('show');
+  clearTimeout(say.t);
+  say.t = setTimeout(() => b.classList.remove('show'), 4000);
+}
+function speak(){
+  if (!P.set.voz) return say('La lectura en voz está apagada en la zona familiar.');
+  const txt = S.story.scenes[S.scene].t;
+  if (!('speechSynthesis' in window)) return say('Tu navegador no puede leer en voz alta.');
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(txt);
+  u.lang = 'es-ES'; u.rate = 0.9;
+  speechSynthesis.speak(u);
+}
+function modal(html){
+  $('#modal').innerHTML = `<div class="panel">${html}<div class="row"><button class="primary" data-act="close">Cerrar</button></div></div>`;
+  $('#modal').classList.add('open');
+}
+function recap(){
+  const s = S.story;
+  return `<h2>Mira el cuento otra vez</h2>` + s.scenes.map(sc =>
+    `<div class="recap">${s.imgs[sc.a]}<p>${esc(sc.t)}</p></div>`).join('');
+}
+const ABOUT = `
+  <h2>Sobre este enfoque (TDAH)</h2>
+  <p>Esta app está pensada para niños y niñas de 6 a 10 años con TDAH que están aprendiendo a comprender lo que leen.</p>
+  <ul>
+    <li><strong>Trozos cortos:</strong> cada pantalla tiene pocas líneas, para no bloquear la atención.</li>
+    <li><strong>Progreso visual:</strong> un cohete avanza, sin cronómetros ni presión de tiempo.</li>
+    <li><strong>Esfuerzo, no solo acierto:</strong> las estrellas premian la constancia y el uso de estrategias.</li>
+    <li><strong>Sin castigos:</strong> un error devuelve la tarjeta con una pista. Nunca hay «Game Over».</li>
+    <li><strong>Memoria de trabajo:</strong> ordenar la historia como un tren ejercita la secuencia y la comprensión.</li>
+    <li><strong>Dos formas de jugar:</strong> arrastrar, o tocar y colocar, para quien tiene poca precisión motora.</li>
+    <li><strong>Consultar sin penalización:</strong> «Volver a mirar el cuento» es una estrategia válida.</li>
+  </ul>
+  <p>Lo que la diferencia de otras apps de lectura: el texto se reparte en micro-escenas, la comprensión se demuestra construyendo la historia, y la interfaz reduce la sobreestimulación con tonos cálidos y un modo calma.</p>`;
+
+function act(el){
+  switch (el.dataset.act){
+    case 'about':   return modal(ABOUT);
+    case 'close':   document.querySelectorAll('.overlay.open').forEach(o => o.classList.remove('open')); return;
+    case 'go':      return go(el.dataset.to);
+    case 'open':    return startStory(STORIES[+el.dataset.book]);
+    case 'pick':    S.pickAv = el.dataset.av; return render();
+    case 'start': {
+      const nm = (S.pickName || '').trim();
+      if (!nm) return say('Escribe tu nombre para empezar');
+      P.name = nm; P.avatar = S.pickAv || '🦊'; save();
+      return go('home');
+    }
+    case 'lvl':     S.lvl = +el.dataset.v; return render();
+    case 'calm':    S.calm = !S.calm; return render();
+    case 'speak':   return speak();
+    case 'ruler':   S.ruler = !S.ruler; S.focus = 0; return render();
+    case 'prev':    S.scene--; S.focus = 0; return render();
+    case 'next':
+      if (S.scene < S.story.scenes.length - 1){ S.scene++; S.focus = 0; return render(); }
+      return startTrain();
+    case 'consult': S.consulted++; P.stats.consulted++; save(); return modal(recap());
+    case 'again':   S.placed = new Array(S.story.cards.length).fill(null); S.fails = 0; S.rapid = 0; S.selected = null; S.wrong = new Set(); return startTrain();
+    case 'gate':
+      if (+el.dataset.v === 12){ S.adult = true; return render(); }
+      return say('Inténtalo otra vez');
+    case 'leave-family': S.adult = false; return go('home');
+    case 'toggle':  P.set[el.dataset.k] = !P.set[el.dataset.k]; save(); return render();
+    case 'reset':
+      if (confirm('¿Borrar todo el progreso y empezar de nuevo?')){
+        P = EMPTY(); save(); S.adult = false; S.pickName = ''; S.pickAv = '';
+        go('onboard');
+      }
+      return;
+  }
+}
+
+$('#app').addEventListener('click', e => {
+  const a = e.target.closest('[data-act]');
+  if (a) return act(a);
+  const s = e.target.closest('[data-s]');
+  if (s && S.ruler && S.view === 'reading'){ S.focus = +s.dataset.s; return render(); }
+  const w = e.target.closest('[data-w]');
+  if (w && S.view === 'train' && S.selected !== null) return attempt(S.selected, +w.dataset.w);
+});
+$('#app').addEventListener('input', e => {
+  if (e.target.id === 'nm') S.pickName = e.target.value;
+});
+$('#modal').addEventListener('click', e => {
+  if (e.target === $('#modal') || e.target.closest('[data-act="close"]')) $('#modal').classList.remove('open');
+});
+
+render();
+</script>
+</body>
+</html>
